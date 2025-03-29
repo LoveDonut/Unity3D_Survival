@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class GunController : MonoBehaviour
 {
-    public static bool isActivate = true; // 활성화 여부
+    public static bool isActivate = false; // 활성화 여부
     [SerializeField] Gun currentGun; // 현재 장착된 Gun형 타입 무기
     float currentFireRate; // 현재 연사속도
     AudioSource audioSource; // 효과음 재생생
@@ -24,8 +24,6 @@ public class GunController : MonoBehaviour
     }
     void Start()
     {
-        WeaponManager.currentWeapon = currentGun.transform;
-        WeaponManager.currentWeaponAnim = currentGun.anim;
         originPos = Vector3.zero;
         audioSource = GetComponent<AudioSource>();
 

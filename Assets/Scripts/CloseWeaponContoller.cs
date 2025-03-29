@@ -1,0 +1,62 @@
+using UnityEngine;
+using System.Collections;
+using UnityEngine.InputSystem;
+public abstract class CloseWeaponContoller : MonoBehaviour
+{
+    [SerializeField] protected CloseWeapon currentCloseWeapon; // 현재 장착된 Hand형 타입 무기
+    protected bool isAttack; // 공격중?
+    protected bool isSwing; // 팔 휘두르는 중?
+    protected RaycastHit hitInfo;
+
+    protected void OnEnable()
+    {
+        InputManager.Subscribe("Fire", TryAttack);        
+    }
+
+    protected void OnDisable()
+    {
+        InputManager.Unsubscribe("Fire", TryAttack);        
+    }
+
+    protected abstract void TryAttack(InputAction.CallbackContext context);
+    protected IEnumerator AttackCoroutine()
+    {
+        isAttack = true;
+        currentCloseWeapon.anim.SetTrigger("Attack");
+
+        yield return new WaitForSeconds(currentCloseWeapon.attackDelayA);
+        isSwing = true;
+
+        StartCoroutine(HitCoroutine());
+
+        yield return new WaitForSeconds(currentCloseWeapon.attackDelayB);
+        isSwing = false;
+
+        yield return new WaitForSeconds(currentCloseWeapon.attackDelay - currentCloseWeapon.attackDelayA - currentCloseWeapon.attackDelayB);
+        isAttack = false;
+    }
+    protected abstract IEnumerator HitCoroutine();
+
+    protected bool CheckObject()
+    {
+        if(Physics.Raycast(transform.position, transform.forward, out hitInfo, currentCloseWeapon.range))
+        {
+            return true;
+        }
+        return false;
+    }
+    public virtual void CloseWeaponChange(CloseWeapon hand)
+    {
+        if(WeaponManager.currentWeapon != null)
+        {
+            WeaponManager.currentWeapon.gameObject.SetActive(false);
+        }
+        currentCloseWeapon = hand;
+        WeaponManager.currentWeapon = currentCloseWeapon.transform;
+        WeaponManager.currentWeaponAnim = currentCloseWeapon.anim;
+
+        currentCloseWeapon.transform.localPosition = Vector3.zero;
+        currentCloseWeapon.gameObject.SetActive(true);
+    }
+
+}

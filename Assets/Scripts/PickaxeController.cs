@@ -1,11 +1,15 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
-public class HandController : CloseWeaponContoller
+public class PickaxeController : CloseWeaponContoller
 {
     public static bool isActivate = true; // 활성화 여부
-    
+    void Start()
+    {
+        WeaponManager.currentWeapon = currentCloseWeapon.transform;
+        WeaponManager.currentWeaponAnim = currentCloseWeapon.anim;        
+    }
     protected override void TryAttack(InputAction.CallbackContext context)
     {
         if(!isAttack && isActivate) // 활성화 상태에서만 공격 가능
@@ -25,6 +29,7 @@ public class HandController : CloseWeaponContoller
             yield return null;
         }
     }
+
     public override void CloseWeaponChange(CloseWeapon cloaseWeapon)
     {
         base.CloseWeaponChange(cloaseWeapon);

@@ -60,7 +60,6 @@ public class WeaponSway : MonoBehaviour
     }
     void BackToOriginPos()
     {
-        Debug.Log($"현재 위치 : {currentPos}, 목표 위치 : {originPos}");
         currentPos = Vector3.Lerp(currentPos, originPos, smoothSway.x * 10f);
         transform.localPosition = currentPos;
     }
