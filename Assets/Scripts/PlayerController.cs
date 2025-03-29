@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     bool _isRun;
     bool _isCrouch;
     bool _isWalk;
+    bool _isGround;
     Vector3 lashPos; // 움직임 체크 변수수
     void Awake()
     {
@@ -78,12 +79,16 @@ public class PlayerController : MonoBehaviour
         RotateCameraVertical();
         RotatePlayer();
     }
+    void FixedUpdate()
+    {
+        _isGround = IsGround();
+    }
     void OnMoved(InputAction.CallbackContext context)
     {
         if(context.ReadValue<Vector2>().magnitude > Mathf.Epsilon && _currentState == PlayerState.None)
         {
             _currentState = PlayerState.Move;
-            if(!_isRun && !_isCrouch)
+            if(!_isRun && !_isCrouch && _isGround)
             {
                 _isWalk = true;
                 crosshair.WalkingAnimation(_isWalk);
@@ -96,7 +101,7 @@ public class PlayerController : MonoBehaviour
         if(_currentState == PlayerState.Move)
         {
             _currentState = PlayerState.None;
-            if(!_isRun && !_isCrouch)
+            if(!_isRun && !_isCrouch && _isGround)
             {
                 _isWalk = false;
                 crosshair.WalkingAnimation(_isWalk);
@@ -126,7 +131,7 @@ public class PlayerController : MonoBehaviour
 
     void OnJump(InputAction.CallbackContext context)
     {
-        if(IsGround())
+        if(_isGround)
         {
             Debug.Log("Jump!");
             _myRigidBody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
@@ -159,7 +164,9 @@ public class PlayerController : MonoBehaviour
 
     bool IsGround()
     {
-        return Physics.Raycast(transform.position, Vector3.down, _myCapsuleCollider.bounds.extents.y + 0.1f);
+        bool isGround = Physics.Raycast(transform.position, Vector3.down, _myCapsuleCollider.bounds.extents.y + 0.3f);
+        crosshair.RunningAnimation(!isGround);
+        return isGround;
     }
 
     void Move()

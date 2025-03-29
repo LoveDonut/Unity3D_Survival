@@ -121,7 +121,12 @@ public class GunController : MonoBehaviour
 
     void Hit()
     {
-        if(Physics.Raycast(theCam.transform.position, theCam.transform.forward, out hitInfo, currentGun.range))
+        Vector3 shootDirection = theCam.transform.forward + 
+            new Vector3(Random.Range(-crosshair.GetAccuraacy() - currentGun.accuracy, crosshair.GetAccuraacy() + currentGun.accuracy),
+                        Random.Range(-crosshair.GetAccuraacy() - currentGun.accuracy, crosshair.GetAccuraacy() + currentGun.accuracy), 0);
+        Debug.Log(shootDirection);
+        if(Physics.Raycast(theCam.transform.position, shootDirection
+            ,out hitInfo, currentGun.range))
         {
             var clone = Instantiate(hitFXPrefab, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
             Destroy(clone, 2f);
@@ -132,7 +137,7 @@ public class GunController : MonoBehaviour
     {
         isFindSightMode = !isFindSightMode;
         currentGun.anim.SetBool("FineSightMode", isFindSightMode);
-
+        crosshair.FineSightAnimation(isFindSightMode);
         if(isFindSightMode)
         {
             StopAllCoroutines();
@@ -246,5 +251,9 @@ public class GunController : MonoBehaviour
     public Gun GetGun()
     {
         return currentGun;
+    }
+    public bool GetFineSightMode()
+    {
+        return isFindSightMode;
     }
 }

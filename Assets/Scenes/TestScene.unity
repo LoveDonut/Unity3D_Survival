@@ -5273,7 +5273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: SubMachineGun1
   range: 100
-  accuracy: 0
+  accuracy: 0.1
   fireRate: 0.1
   reloadTime: 2
   damage: 30
@@ -5405,6 +5405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1280547021}
   go_CrosshairHUD: {fileID: 1431532054}
+  gunController: {fileID: 1875833521}
 --- !u!1 &313453139
 GameObject:
   m_ObjectHideFlags: 0
@@ -5508,7 +5509,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -209.39677, y: -142.07204, z: 147.10881}
-  m_LocalScale: {x: 1, y: 10, z: 1}
+  m_LocalScale: {x: 6, y: 10, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2012481664}
@@ -5906,7 +5907,7 @@ MonoBehaviour:
   lookSensitivity: 0.5
   cameraRotationLimitX: 45
   playerCamera: {fileID: 330585545}
-  crounchPosY: 0
+  CrouchPosY: 0
 --- !u!54 &505408574
 Rigidbody:
   m_ObjectHideFlags: 0
