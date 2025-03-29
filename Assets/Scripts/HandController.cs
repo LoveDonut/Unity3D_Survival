@@ -4,23 +4,25 @@ using UnityEngine.InputSystem;
 
 public class HandController : MonoBehaviour
 {
+    public static bool isActivate = false; // 활성화 여부
     [SerializeField] Hand currentHand; // 현재 장착된 Hand형 타입 무기
     bool isAttack; // 공격중?
     bool isSwing; // 팔 휘두르는 중?
     RaycastHit hitInfo;
 
-    void Start()
+    void OnEnable()
     {
         InputManager.Subscribe("Fire", TryAttack);        
     }
 
-    void OnDestroy()
+    void OnDisable()
     {
         InputManager.Unsubscribe("Fire", TryAttack);        
     }
 
     void TryAttack(InputAction.CallbackContext context)
     {
+        if(!isActivate) return;
         if(!isAttack)
         {
             StartCoroutine(AttackCoroutine());
@@ -65,4 +67,17 @@ public class HandController : MonoBehaviour
         }
         return false;
     }
-}
+    public void HandChange(Hand hand)
+    {
+        if(WeaponManager.currentWeapon != null)
+        {
+            WeaponManager.currentWeapon.gameObject.SetActive(false);
+        }
+        currentHand = hand;
+        WeaponManager.currentWeapon = currentHand.transform;
+        WeaponManager.currentWeaponAnim = currentHand.anim;
+
+        currentHand.transform.localPosition = Vector3.zero;
+        currentHand.gameObject.SetActive(true);
+        isActivate = true;
+    }}

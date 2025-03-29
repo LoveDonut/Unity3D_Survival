@@ -11831,6 +11831,7 @@ GameObject:
   - component: {fileID: 1875833518}
   - component: {fileID: 1875833519}
   - component: {fileID: 1875833521}
+  - component: {fileID: 1875833522}
   - component: {fileID: 1875833520}
   m_Layer: 2
   m_Name: Holder
@@ -11863,7 +11864,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1875833517}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afacb0c68e8567c459a848c010483522, type: 3}
   m_Name: 
@@ -11982,6 +11983,27 @@ MonoBehaviour:
   originPos: {x: 0, y: 0, z: 0}
   theCam: {fileID: 330585545}
   hitFXPrefab: {fileID: 6761866584433982026, guid: 1f95ce0e1ee693544a506a0c8f893584, type: 3}
+--- !u!114 &1875833522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875833517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c57a2a5a13f90d468cedcdfdf137e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  changeWeaponDelayTime: 0.1
+  changeWeaponEndDelayTime: 0.1
+  guns:
+  - {fileID: 198115755}
+  hands:
+  - {fileID: 674108595}
+  gunController: {fileID: 1875833521}
+  handController: {fileID: 1875833519}
+  currentWeaponType: GUN
 --- !u!1 &1951811023
 GameObject:
   m_ObjectHideFlags: 0

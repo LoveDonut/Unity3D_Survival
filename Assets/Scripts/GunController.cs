@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class GunController : MonoBehaviour
 {
+    public static bool isActivate = true; // 활성화 여부
     [SerializeField] Gun currentGun; // 현재 장착된 Gun형 타입 무기
     float currentFireRate; // 현재 연사속도
     AudioSource audioSource; // 효과음 재생생
@@ -23,16 +24,20 @@ public class GunController : MonoBehaviour
     }
     void Start()
     {
+        WeaponManager.currentWeapon = currentGun.transform;
+        WeaponManager.currentWeaponAnim = currentGun.anim;
         originPos = Vector3.zero;
         audioSource = GetComponent<AudioSource>();
 
+    }
+    void OnEnable()
+    {
         InputManager.Subscribe("Fire", StartFire, InputActionPhase.Started);
         InputManager.Subscribe("Fire", CancelFire, InputActionPhase.Canceled);
         InputManager.Subscribe("Reload", TryReload);
-        InputManager.Subscribe("FineSight", TryFineSight);
+        InputManager.Subscribe("FineSight", TryFineSight);        
     }
-
-    void OnDestroy()
+    void OnDisable()
     {
         InputManager.Subscribe("Fire", StartFire, InputActionPhase.Started);
         InputManager.Subscribe("Fire", CancelFire, InputActionPhase.Canceled);
@@ -42,6 +47,7 @@ public class GunController : MonoBehaviour
 
     void Update()
     {
+        if(!isActivate) return;
         GunFireRateCalc();
         Fire();
     }
@@ -57,6 +63,7 @@ public class GunController : MonoBehaviour
 
     void StartFire(InputAction.CallbackContext ctx)
     {
+        if(!isActivate) return;
         if(currentFireRate <= 0 && !isReload)
         {
             isShooting = true;
@@ -65,20 +72,33 @@ public class GunController : MonoBehaviour
 
     void CancelFire(InputAction.CallbackContext ctx)
     {
+        if(!isActivate) return;
         isShooting = false;
     }
     // 재장전 시도
     void TryReload(InputAction.CallbackContext ctx)
     {
+        if(!isActivate) return;
         if(!isReload && currentGun.currentBulletCount < currentGun.reloadBulletCount)
         {
             CancelFineSight();
             StartCoroutine(ReloadCoroutine());
         }
     }
+
+    public void CancelReload()
+    {
+        if(!isActivate) return;
+        if(isReload)
+        {
+            StopAllCoroutines();
+            isReload = false;
+        }
+    }
     // 정조준 시도
     void TryFineSight(InputAction.CallbackContext ctx)
     {
+        if(!isActivate) return;
         if(!isReload)
         {
             FineSight();
@@ -87,6 +107,7 @@ public class GunController : MonoBehaviour
     // 정조준 취소
     public void CancelFineSight()
     {
+        if(!isActivate) return;
         if(isFindSightMode)
         {
             FineSight();
@@ -106,7 +127,7 @@ public class GunController : MonoBehaviour
             StartCoroutine(ReloadCoroutine());
         }
     }
-    // 발사 후 계산산
+    // 발사 후 계산
     void Shoot()
     {
         crosshair.FireAnimation();
@@ -124,7 +145,6 @@ public class GunController : MonoBehaviour
         Vector3 shootDirection = theCam.transform.forward + 
             new Vector3(Random.Range(-crosshair.GetAccuraacy() - currentGun.accuracy, crosshair.GetAccuraacy() + currentGun.accuracy),
                         Random.Range(-crosshair.GetAccuraacy() - currentGun.accuracy, crosshair.GetAccuraacy() + currentGun.accuracy), 0);
-        Debug.Log(shootDirection);
         if(Physics.Raycast(theCam.transform.position, shootDirection
             ,out hitInfo, currentGun.range))
         {
@@ -255,5 +275,19 @@ public class GunController : MonoBehaviour
     public bool GetFineSightMode()
     {
         return isFindSightMode;
+    }
+    public void GunChange(Gun gun)
+    {
+        if(WeaponManager.currentWeapon != null)
+        {
+            WeaponManager.currentWeapon.gameObject.SetActive(false);
+        }
+        currentGun = gun;
+        WeaponManager.currentWeapon = currentGun.transform;
+        WeaponManager.currentWeaponAnim = currentGun.anim;
+
+        currentGun.transform.localPosition = Vector3.zero;
+        currentGun.gameObject.SetActive(true);
+        isActivate = true;
     }
 }
