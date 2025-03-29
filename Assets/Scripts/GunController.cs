@@ -272,7 +272,7 @@ public class GunController : MonoBehaviour
     {
         return currentGun;
     }
-    public bool GetFineSightMode()
+    public bool IsFineSightMode()
     {
         return isFindSightMode;
     }
