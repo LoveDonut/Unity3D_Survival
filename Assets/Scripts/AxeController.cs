@@ -18,6 +18,10 @@ public class AxeController : CloseWeaponContoller
         {
             if(CheckObject())
             {
+                if(hitInfo.transform.CompareTag("Grass"))
+                {
+                    hitInfo.transform.GetComponent<Grass>().Damage();
+                }
                 isSwing = false;
                 Debug.Log(hitInfo.transform.name);
             }
