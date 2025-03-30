@@ -4,7 +4,12 @@ using System.Collections;
 
 public class PickaxeController : CloseWeaponContoller
 {
+    PlayerController playerController;
     public static bool isActivate = true; // 활성화 여부
+    void Awake()
+    {
+        playerController = GetComponentInParent<PlayerController>();
+    }
     void Start()
     {
         WeaponManager.currentWeapon = currentCloseWeapon.transform;
@@ -26,6 +31,10 @@ public class PickaxeController : CloseWeaponContoller
                 if(hitInfo.transform.tag == "Rock")
                 {
                     hitInfo.transform.GetComponent<Rock>().Mining();
+                }
+                else if(hitInfo.transform.tag == "Twig")
+                {
+                    hitInfo.transform.GetComponent<Twig>().Damage(playerController.transform);
                 }
                 isSwing = false;
                 Debug.Log(hitInfo.transform.name);
