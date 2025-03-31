@@ -19,20 +19,20 @@ public abstract class CloseWeaponContoller : MonoBehaviour
     }
 
     protected abstract void TryAttack(InputAction.CallbackContext context);
-    protected IEnumerator AttackCoroutine()
+    protected IEnumerator AttackCoroutine(string swingType, float delayA, float delayB, float delayC)
     {
         isAttack = true;
-        currentCloseWeapon.anim.SetTrigger("Attack");
+        currentCloseWeapon.anim.SetTrigger(swingType);
 
-        yield return new WaitForSeconds(currentCloseWeapon.attackDelayA);
+        yield return new WaitForSeconds(delayA);
         isSwing = true;
 
         StartCoroutine(HitCoroutine());
 
-        yield return new WaitForSeconds(currentCloseWeapon.attackDelayB);
+        yield return new WaitForSeconds(delayB);
         isSwing = false;
 
-        yield return new WaitForSeconds(currentCloseWeapon.attackDelay - currentCloseWeapon.attackDelayA - currentCloseWeapon.attackDelayB);
+        yield return new WaitForSeconds(delayC - delayB - delayA);
         isAttack = false;
     }
     protected abstract IEnumerator HitCoroutine();

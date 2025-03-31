@@ -19,7 +19,7 @@ public class PickaxeController : CloseWeaponContoller
     {
         if(!isAttack && isActivate) // 활성화 상태에서만 공격 가능
         {
-            StartCoroutine(AttackCoroutine());
+            StartCoroutine(AttackCoroutine("Attack",currentCloseWeapon.attackDelayA, currentCloseWeapon.attackDelayB, currentCloseWeapon.attackDelay));
         }
     }
     protected override IEnumerator HitCoroutine()

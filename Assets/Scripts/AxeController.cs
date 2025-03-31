@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +10,14 @@ public class AxeController : CloseWeaponContoller
     {
         if(!isAttack && isActivate) // 활성화 상태에서만 공격 가능
         {
-            StartCoroutine(AttackCoroutine());
+            if(CheckObject() && hitInfo.transform.CompareTag("Tree"))
+            {
+                StartCoroutine(AttackCoroutine("Chop",currentCloseWeapon.workDelayA, currentCloseWeapon.workDelayB, currentCloseWeapon.workDelay));                
+            }
+            else
+            {
+                StartCoroutine(AttackCoroutine("Attack",currentCloseWeapon.attackDelayA, currentCloseWeapon.attackDelayB, currentCloseWeapon.attackDelay));
+            }
         }
     }
     protected override IEnumerator HitCoroutine()
@@ -21,6 +29,10 @@ public class AxeController : CloseWeaponContoller
                 if(hitInfo.transform.CompareTag("Grass"))
                 {
                     hitInfo.transform.GetComponent<Grass>().Damage();
+                }
+                else if(hitInfo.transform.CompareTag("Tree"))
+                {
+                    hitInfo.transform.GetComponent<TreeComponent>().Chop(hitInfo.point, transform.eulerAngles.y);
                 }
                 isSwing = false;
                 Debug.Log(hitInfo.transform.name);
