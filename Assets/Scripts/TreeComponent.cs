@@ -112,6 +112,10 @@ public class TreeComponent : MonoBehaviour
 
         Destroy(go_ChildTree.gameObject);
     }
+    public Vector3 GetTreeCenterPosition()
+    {
+        return go_treeCenter.transform.position;
+    }
     void Destruction()
     {
 

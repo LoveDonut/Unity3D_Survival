@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Camera playerCamera; // 1인칭 카메라
     GunController theGunController;
     Crosshair crosshair;
+    StatusController statusController;
     Vector3 _moveDirection;
     Rigidbody _myRigidBody;
     CapsuleCollider _myCapsuleCollider;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
     bool _isCrouch;
     bool _isWalk;
     bool _isGround;
+    bool pauseCameraRotation;
     Vector3 lashPos; // 움직임 체크 변수수
     void Awake()
     {
@@ -42,6 +44,7 @@ public class PlayerController : MonoBehaviour
         _myCapsuleCollider = GetComponent<CapsuleCollider>();
         theGunController = FindAnyObjectByType<GunController>();
         crosshair = FindAnyObjectByType<Crosshair>();
+        statusController = FindAnyObjectByType<StatusController>();
     }
     void Start()
     {
@@ -133,7 +136,7 @@ public class PlayerController : MonoBehaviour
     {
         if(_isGround)
         {
-            Debug.Log("Jump!");
+            statusController.DecreaseStamina(100);
             _myRigidBody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         }
     }
@@ -177,6 +180,10 @@ public class PlayerController : MonoBehaviour
         _moveDirection = (directionVertical + directionHorizontal).normalized;
 
         _applySpeed = _isCrouch || _isRun? (_isCrouch? crouchSpeed : runSpeed) : walkSpeed;
+        if(_isRun)
+        {
+            statusController.DecreaseStamina(1);
+        }
 
         _myRigidBody.MovePosition(transform.position + _moveDirection * _applySpeed * Time.deltaTime);
     }   
@@ -192,16 +199,37 @@ public class PlayerController : MonoBehaviour
     // 플레이어 시점 상하 회전 - 마우스 위아래로 움직일 때 카메라도 위아래로 움직여야 한다
     void RotateCameraVertical()
     {   
-        // X축 기준으로 회전시키면 상하로 움직이므로, 인풋을 x축 회전에 적용한다
-        float _xRotation = _inputAction.Player.Look.ReadValue<Vector2>().y * lookSensitivity;
+        if(!pauseCameraRotation)
+        {
+            // X축 기준으로 회전시키면 상하로 움직이므로, 인풋을 x축 회전에 적용한다
+            float _xRotation = _inputAction.Player.Look.ReadValue<Vector2>().y * lookSensitivity;
 
-        // 회전이 양수면 아래를 바라보므로 값을 빼준다.
-        _currentCameraRotationX -= _xRotation;
-        _currentCameraRotationX = Mathf.Clamp(_currentCameraRotationX, -cameraRotationLimitX, cameraRotationLimitX);
-        
-        playerCamera.transform.localEulerAngles = new Vector3(_currentCameraRotationX, 0f, 0f);
+            // 회전이 양수면 아래를 바라보므로 값을 빼준다.
+            _currentCameraRotationX -= _xRotation;
+            _currentCameraRotationX = Mathf.Clamp(_currentCameraRotationX, -cameraRotationLimitX, cameraRotationLimitX);
+            
+            playerCamera.transform.localEulerAngles = new Vector3(_currentCameraRotationX, 0f, 0f);
+        }
     }
 
+    public IEnumerator TreeLookCoroutine(Vector3 target)
+    {
+        pauseCameraRotation = true;
+        
+        Quaternion direction = Quaternion.LookRotation(target - playerCamera.transform.position);
+        Vector3 eulerValue = direction.eulerAngles;
+        float destinationX = eulerValue.x;
+
+        while(Mathf.Abs(destinationX - _currentCameraRotationX) >= 0.5f)
+        {
+            eulerValue = Quaternion.Lerp(playerCamera.transform.rotation, direction, 0.2f).eulerAngles;
+            playerCamera.transform.localRotation = Quaternion.Euler(eulerValue.x, 0f, 0f);
+            _currentCameraRotationX = playerCamera.transform.localEulerAngles.x;
+            yield return null;
+        }
+
+        pauseCameraRotation = false;
+    }
     IEnumerator CrouchCoroutine()
     {
         float posY = playerCamera.transform.localPosition.y;

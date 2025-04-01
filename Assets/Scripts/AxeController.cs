@@ -12,6 +12,7 @@ public class AxeController : CloseWeaponContoller
         {
             if(CheckObject() && hitInfo.transform.CompareTag("Tree"))
             {
+                StartCoroutine(playerController.TreeLookCoroutine(hitInfo.transform.GetComponent<TreeComponent>().GetTreeCenterPosition()));
                 StartCoroutine(AttackCoroutine("Chop",currentCloseWeapon.workDelayA, currentCloseWeapon.workDelayB, currentCloseWeapon.workDelay));                
             }
             else

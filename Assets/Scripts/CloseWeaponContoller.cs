@@ -4,10 +4,16 @@ using UnityEngine.InputSystem;
 public abstract class CloseWeaponContoller : MonoBehaviour
 {
     [SerializeField] protected CloseWeapon currentCloseWeapon; // 현재 장착된 Hand형 타입 무기
+    // 필요한 컴포넌트
+    protected PlayerController playerController; 
     protected bool isAttack; // 공격중?
     protected bool isSwing; // 팔 휘두르는 중?
     protected RaycastHit hitInfo;
 
+    void Awake()
+    {
+        playerController = FindAnyObjectByType<PlayerController>();
+    }
     protected void OnEnable()
     {
         InputManager.Subscribe("Fire", TryAttack);        
