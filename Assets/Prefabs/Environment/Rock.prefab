@@ -70,10 +70,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 3
   destroyTime: 5
+  count: 5
   col: {fileID: 3028577926831617586}
   go_rock: {fileID: 7090632383611381109}
   go_debiris: {fileID: 6500223574908243003}
   go_effect_prefabs: {fileID: 2997312793354868, guid: a1040035956038b418fa49b7589a4851, type: 3}
+  go_rock_tiem_prefab: {fileID: 6603846266232774715, guid: d766f6076f3ccdb4bbd14382efa69d9f, type: 3}
   strike_Sound: Pickaxe_Strike
   destroy_Sound: Rock_Destroy
 --- !u!1001 &6500223574908275439
