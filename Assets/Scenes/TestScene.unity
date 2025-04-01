@@ -12301,7 +12301,7 @@ MonoBehaviour:
   hp: 100
   sp: 1000
   spIncreaseSpeed: 10
-  spRechargeTime: 5
+  spRechargeTime: 300
   dp: 100
   hungry: 100
   hungryDecreaseTime: 2

@@ -127,14 +127,14 @@ public class PlayerController : MonoBehaviour
 
     void SetRun(bool isRun)
     {
-        if(_isRun == isRun) return;
+        if(_isRun == isRun && statusController.GetCurrentSP() <= 0) return;
         _isRun = isRun;
         crosshair.RunningAnimation(_isRun);
     }
 
     void OnJump(InputAction.CallbackContext context)
     {
-        if(_isGround)
+        if(_isGround && statusController.GetCurrentSP() > 0)
         {
             statusController.DecreaseStamina(100);
             _myRigidBody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
@@ -183,6 +183,10 @@ public class PlayerController : MonoBehaviour
         if(_isRun)
         {
             statusController.DecreaseStamina(1);
+            if(statusController.GetCurrentSP() <= 0)
+            {
+                SetRun(false);
+            }
         }
 
         _myRigidBody.MovePosition(transform.position + _moveDirection * _applySpeed * Time.deltaTime);

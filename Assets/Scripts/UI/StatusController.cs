@@ -133,7 +133,92 @@ public class StatusController : MonoBehaviour
         images_Gauge[THIRSTY].fillAmount = (float)currentThirsty / thirsty;
         images_Gauge[SATISFY].fillAmount = (float)currentSatisfy / satisfy;
     }
-
+    public void IncreaseHP(int count)
+    {
+        if(currentHp + count < hp)
+        {
+            currentHp += count;
+        }
+        else
+        {
+            currentHp = hp;
+        }
+    }
+    public void DecreaseHP(int count)
+    {
+        if(currentDp > 0)
+        {
+            DecreaseDP(count);
+            return;
+        }
+        currentHp -= count;
+        if(currentHp <= 0)
+        {
+            Debug.Log("캐릭터 hp가 0이 되었습니다!");
+        }
+    }
+    public void IncreaseDP(int count)
+    {
+        if(currentDp + count < dp)
+        {
+            currentDp += count;
+        }
+        else
+        {
+            currentDp = dp;
+        }
+    }
+    public void DecreaseDP(int count)
+    {
+        currentDp -= count;
+        if(currentDp <= 0)
+        {
+            Debug.Log("캐릭터 dp가 0이 되었습니다!");
+        }
+    }
+    public void IncreaseHungry(int count)
+    {
+        if(currentHungry + count < hungry)
+        {
+            currentHungry += count;
+        }
+        else
+        {
+            currentHungry = hungry;
+        }
+    }
+    public void DecreaseHungry(int count)
+    {
+        if(currentHungry - count < 0)
+        {
+            currentHungry = 0;
+        }
+        else
+        {
+            currentHungry -= count;
+        }
+    }    
+    public void IncreaseThirsty(int count)
+    {
+        if(currentThirsty + count < thirsty)
+        {
+            currentThirsty += count;
+        }
+        else
+        {
+            currentThirsty = thirsty;
+        }
+    }    public void DecreaseThirsty(int count)
+    {
+        if(currentThirsty - count < 0)
+        {
+            currentThirsty = 0;
+        }
+        else
+        {
+            currentThirsty -= count;
+        }
+    }
     public void DecreaseStamina(int count)
     {
         spUsed = true;
@@ -147,5 +232,10 @@ public class StatusController : MonoBehaviour
         {
             currentSp = 0;
         }
+    }
+
+    public int GetCurrentSP()
+    {
+        return currentSp;
     }
 }
