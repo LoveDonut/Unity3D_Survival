@@ -11,7 +11,7 @@ public class ActionController : MonoBehaviour
     [SerializeField] LayerMask layerMask; // 아이템 레이어에만 반응하도록 레이어 마스크를 설정
     // 필요한 컴포넌트
     [SerializeField] TextMeshProUGUI actionText;
-
+    [SerializeField] Inventory inventory;
     void OnEnable()
     {
 //        InputManager.Subscribe("Action", CheckItem,InputActionPhase.Performed);
@@ -48,6 +48,7 @@ public class ActionController : MonoBehaviour
             if(hitInfo.transform != null)
             {
                 Debug.Log($"{hitInfo.transform.GetComponent<ItemPickUp>().item.itemName} Get Succeed");
+                inventory.AcquireItem(hitInfo.transform.GetComponent<ItemPickUp>().item);
                 Destroy(hitInfo.transform.gameObject);
                 InfoDisappear();
             }
