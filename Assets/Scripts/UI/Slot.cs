@@ -1,15 +1,27 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class Slot : MonoBehaviour
+using UnityEngine.EventSystems;
+public class Slot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndDragHandler, IBeginDragHandler, IDropHandler
 {
     public Item item; // 획득한 아이템
     public int itemCount; // 획득한 아이템의 개수
     public Image itemImage; // 아이템의 이미지
+    Vector3 originPos;
     // 필요한 컴포넌트
     [SerializeField] TextMeshProUGUI text_Count;
     [SerializeField] GameObject go_CountImage;
+    WeaponManager weaponManager;
+
+    void Awake()
+    {
+        weaponManager = FindAnyObjectByType<WeaponManager>();
+    }
+
+    void Start()
+    {
+        originPos = transform.position;
+    }
 
     // 이미지 투명도 조절
     void SetColor(float _alpha)
@@ -62,5 +74,74 @@ public class Slot : MonoBehaviour
 
         go_CountImage.SetActive(false);
         text_Count.SetText("0");
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(eventData.button == PointerEventData.InputButton.Right)
+        {
+            if(item != null)
+            {
+                if(item.itemType == Item.ItemType.Equipment)
+                {
+                    StartCoroutine(weaponManager.ChangeWeaponCoroutine(item.weaponType, item.itemName));
+                }
+                else
+                {
+                    Debug.Log($"{item.itemName} 을 사용했습니다");
+                    SetSlotCount(-1);
+                }
+            }
+        }
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if(item != null)
+        {
+            DragSlot.instance.transform.position = eventData.position;
+        }
+    }
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if(item != null)
+        {
+            DragSlot.instance.dragSlot = this;
+            DragSlot.instance.DragSetImage(itemImage);
+
+            DragSlot.instance.transform.position = eventData.position;
+        }        
+    }
+
+    // 드래그가 끝나기만 해도 호출됨
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        DragSlot.instance.SetColor(0f);
+        DragSlot.instance.dragSlot = null;
+    }
+
+    // 슬롯위에 올라와야만 호출됨
+    public void OnDrop(PointerEventData eventData)
+    {
+        if(DragSlot.instance.dragSlot != null)
+        {
+            ChangeSlot();
+        }
+    }
+    void ChangeSlot()
+    {
+        Item _tempItem = item;
+        int _tempItemCount = itemCount;
+
+        AddItem(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.itemCount);
+
+        if(_tempItem != null)
+        {
+            DragSlot.instance.dragSlot.AddItem(_tempItem, _tempItemCount);
+        }
+        else
+        {
+            DragSlot.instance.dragSlot.ClearSlot();
+        }
     }
 }

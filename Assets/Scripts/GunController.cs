@@ -46,6 +46,7 @@ public class GunController : MonoBehaviour
     void Update()
     {
         if(!isActivate) return;
+        if(Inventory.inventoryActivated) return;
         GunFireRateCalc();
         Fire();
     }
@@ -62,6 +63,7 @@ public class GunController : MonoBehaviour
     void StartFire(InputAction.CallbackContext ctx)
     {
         if(!isActivate) return;
+        if(Inventory.inventoryActivated) return;
         if(currentFireRate <= 0 && !isReload)
         {
             isShooting = true;

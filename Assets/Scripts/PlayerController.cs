@@ -79,8 +79,11 @@ public class PlayerController : MonoBehaviour
         {
             Move();
         }
-        RotateCameraVertical();
-        RotatePlayer();
+        if(!Inventory.inventoryActivated)
+        {
+            RotateCameraVertical();
+            RotatePlayer();
+        }
     }
     void FixedUpdate()
     {

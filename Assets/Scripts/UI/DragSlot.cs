@@ -1,0 +1,25 @@
+using UnityEngine;
+using UnityEngine.UI;
+public class DragSlot : MonoBehaviour
+{
+    static public DragSlot instance;
+    public Slot dragSlot;
+    [SerializeField] Image imageItem;
+
+    void Awake()
+    {
+        instance = this;
+    }
+    public void DragSetImage(Image _itemImage)
+    {
+        imageItem.sprite = _itemImage.sprite;
+        SetColor(1f);
+    }
+
+    public void SetColor(float _alpha)
+    {
+        Color color = imageItem.color;
+        color.a = _alpha;
+        imageItem.color = color;
+    }
+}

@@ -8,6 +8,7 @@ public class HandController : CloseWeaponContoller
     
     protected override void TryAttack(InputAction.CallbackContext context)
     {
+        if(Inventory.inventoryActivated) return;
         if(!isAttack && isActivate) // 활성화 상태에서만 공격 가능
         {
             StartCoroutine(AttackCoroutine("Attack",currentCloseWeapon.attackDelayA, currentCloseWeapon.attackDelayB, currentCloseWeapon.attackDelay));

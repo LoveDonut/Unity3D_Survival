@@ -33,7 +33,10 @@ public class WeaponSway : MonoBehaviour
 
     void TrySway(InputAction.CallbackContext ctx)
     {
-        Swaying();
+        if(!Inventory.inventoryActivated)
+        {
+            Swaying();
+        }
     }
     void SwayStop()
     {
