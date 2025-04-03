@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering.Universal;
 public class Slot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndDragHandler, IBeginDragHandler, IDropHandler
 {
     public Item item; // 획득한 아이템
@@ -12,10 +13,14 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndDragH
     [SerializeField] TextMeshProUGUI text_Count;
     [SerializeField] GameObject go_CountImage;
     WeaponManager weaponManager;
+    Rect baseRect;
+    InputNumber inputNumber;
 
     void Awake()
     {
+        baseRect = transform.parent.parent.GetComponent<RectTransform>().rect;
         weaponManager = FindAnyObjectByType<WeaponManager>();
+        inputNumber = FindAnyObjectByType<InputNumber>();
     }
 
     void Start()
@@ -116,8 +121,21 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndDragH
     // 드래그가 끝나기만 해도 호출됨
     public void OnEndDrag(PointerEventData eventData)
     {
-        DragSlot.instance.SetColor(0f);
-        DragSlot.instance.dragSlot = null;
+        if(DragSlot.instance.transform.localPosition.x < baseRect.xMin ||
+            DragSlot.instance.transform.localPosition.x > baseRect.xMax ||
+            DragSlot.instance.transform.localPosition.y < baseRect.yMin ||
+            DragSlot.instance.transform.localPosition.y > baseRect.yMax)
+            {
+                if(DragSlot.instance.dragSlot != null)
+                {
+                    inputNumber.Call();
+                }
+            }
+            else
+            {
+                DragSlot.instance.SetColor(0f);
+                DragSlot.instance.dragSlot = null;
+            }
     }
 
     // 슬롯위에 올라와야만 호출됨
