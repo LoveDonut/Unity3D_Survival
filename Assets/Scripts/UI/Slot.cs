@@ -12,14 +12,14 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndDragH
     // 필요한 컴포넌트
     [SerializeField] TextMeshProUGUI text_Count;
     [SerializeField] GameObject go_CountImage;
-    WeaponManager weaponManager;
+    ItemEffectDatabase itemEffectDatabase;
     Rect baseRect;
     InputNumber inputNumber;
 
     void Awake()
     {
         baseRect = transform.parent.parent.GetComponent<RectTransform>().rect;
-        weaponManager = FindAnyObjectByType<WeaponManager>();
+        itemEffectDatabase = FindAnyObjectByType<ItemEffectDatabase>();
         inputNumber = FindAnyObjectByType<InputNumber>();
     }
 
@@ -87,13 +87,9 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndDragH
         {
             if(item != null)
             {
-                if(item.itemType == Item.ItemType.Equipment)
+                itemEffectDatabase.UseItem(item);
+                if(item.itemType == Item.ItemType.Used)
                 {
-                    StartCoroutine(weaponManager.ChangeWeaponCoroutine(item.weaponType, item.itemName));
-                }
-                else
-                {
-                    Debug.Log($"{item.itemName} 을 사용했습니다");
                     SetSlotCount(-1);
                 }
             }

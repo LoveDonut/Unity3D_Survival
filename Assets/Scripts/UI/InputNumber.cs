@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class InputNumber : MonoBehaviour
 {
@@ -51,7 +49,6 @@ public class InputNumber : MonoBehaviour
         string inputText = text_Input.text.Trim((char)8203);
         if(inputText != "")
         {
-            Debug.Log($"입력한 값의 길이 : {inputText.Length}");
             if(CheckNumber(inputText))
             {
                 num = int.Parse(inputText);
@@ -59,7 +56,6 @@ public class InputNumber : MonoBehaviour
                 {
                     num = DragSlot.instance.dragSlot.itemCount;
                 }
-                Debug.Log($"버릴 개수가 많네잉 : {num}");
             }
             else
             {
@@ -68,20 +64,20 @@ public class InputNumber : MonoBehaviour
         }
         else
         {
-            num = int.Parse(text_Preview.text.Trim((char)8203));
+            num = int.Parse(text_Preview.text);
         }
-        Debug.Log($"버릴 개수 : {num}");
         StartCoroutine(DropItemCoroutine(num));
     }
     IEnumerator DropItemCoroutine(int _num)
     {
         for(int i=0; i<_num; i++)
         {
+            
             if(DragSlot.instance.dragSlot.item.itemPrefab != null)
             {
                 Instantiate(DragSlot.instance.dragSlot.item.itemPrefab, player.transform.position + player.transform.forward, Quaternion.identity);
-                DragSlot.instance.dragSlot.SetSlotCount(-1);
             }
+            DragSlot.instance.dragSlot.SetSlotCount(-1);
             yield return new WaitForSeconds(0.05f);
         }
         DragSlot.instance.dragSlot = null;
@@ -96,12 +92,10 @@ public class InputNumber : MonoBehaviour
         {
             if(_tempCharArray[i] >= '0' && _tempCharArray[i] <= '9')
             {
-                Debug.Log($"통과한 값 : {_tempCharArray[i]}");
                 continue;
             }
             else
             {
-                Debug.Log($"통과못한 값 : {_tempCharArray[i]}");
                 return false;
             }
         }
