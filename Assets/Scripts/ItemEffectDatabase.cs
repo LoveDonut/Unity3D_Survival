@@ -17,6 +17,16 @@ public class ItemEffectDatabase : MonoBehaviour
     // 필요한 컴포넌트
     [SerializeField] StatusController statusController;
     [SerializeField] WeaponManager weaponManager;
+    [SerializeField] SlotToolTip slotToolTip;
+
+    public void ShowToolTip(Item _item, Vector3 _pos)
+    {
+        slotToolTip.ShowToolTip(_item, _pos);
+    }
+    public void HideToolTip()
+    {
+        slotToolTip.HideToolTip();
+    }
     public void UseItem(Item _item)
     {
         if(_item.itemType == Item.ItemType.Equipment)
