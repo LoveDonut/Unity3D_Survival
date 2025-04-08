@@ -124,7 +124,27 @@ public static class InputManager
             actionCallbacks[actionName][phase].Remove(callback);
         }
     }
+    // 특정 액션의 모든 콜백 제거
+    public static void UnsubscribeAll(string actionName, InputActionPhase phase = InputActionPhase.Disabled)
+    {
+        if (!isInitialized || !actionCallbacks.ContainsKey(actionName))
+        {
+            return;
+        }
 
+        if (phase == InputActionPhase.Disabled)
+        {
+            // 모든 phase의 콜백 리스트 초기화
+            actionCallbacks[actionName][InputActionPhase.Started].Clear();
+            actionCallbacks[actionName][InputActionPhase.Performed].Clear();
+            actionCallbacks[actionName][InputActionPhase.Canceled].Clear();
+        }
+        else
+        {
+            // 특정 phase만 초기화
+            actionCallbacks[actionName][phase].Clear();
+        }
+    }
     // 편의를 위한 일괄 구독 메서드
     public static void SubscribeToAllPhases(string actionName, System.Action<InputAction.CallbackContext> callback)
     {

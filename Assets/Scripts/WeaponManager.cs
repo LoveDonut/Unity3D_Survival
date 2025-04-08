@@ -27,20 +27,6 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] AxeController axeController;
     [SerializeField] PickaxeController pickaxeController;
     [SerializeField] string currentWeaponType; // 현재 무기의 타입
-    void OnEnable()
-    {
-        InputManager.Subscribe("Weapon1", EquipFirstWeapon);
-        InputManager.Subscribe("Weapon2", EquipSecondWeapon);
-        InputManager.Subscribe("Weapon3", EquipThirdWeapon);
-        InputManager.Subscribe("Weapon4", EquipForthWeapon);
-    }
-    void OnDisable()
-    {
-        InputManager.Unsubscribe("Weapon1", EquipFirstWeapon);
-        InputManager.Unsubscribe("Weapon2", EquipSecondWeapon);        
-        InputManager.Unsubscribe("Weapon3", EquipThirdWeapon);        
-        InputManager.Unsubscribe("Weapon4", EquipForthWeapon);        
-    }
     void Start()
     {
         for(int i=0; i<guns.Length; i++)
@@ -57,35 +43,6 @@ public class WeaponManager : MonoBehaviour
         }        for(int i=0; i<axes.Length; i++)
         {
             pickaxeDictionary.Add(pickaxes[i].closeWeaponName, pickaxes[i]);
-        }
-    }
-
-    void EquipFirstWeapon(InputAction.CallbackContext ctx)
-    {
-        if(!isChangeWeapon)
-        {
-            StartCoroutine(ChangeWeaponCoroutine("HAND", "맨손"));
-        }
-    }
-    void EquipSecondWeapon(InputAction.CallbackContext ctx)
-    {
-        if(!isChangeWeapon)
-        {
-            StartCoroutine(ChangeWeaponCoroutine("GUN", "SubMachineGun1"));
-        }
-    }
-    void EquipThirdWeapon(InputAction.CallbackContext ctx)
-    {
-        if(!isChangeWeapon)
-        {
-            StartCoroutine(ChangeWeaponCoroutine("AXE", "Axe"));
-        }
-    }
-    void EquipForthWeapon(InputAction.CallbackContext ctx)
-    {
-        if(!isChangeWeapon)
-        {
-            StartCoroutine(ChangeWeaponCoroutine("PICKAXE", "Pickaxe"));
         }
     }
 

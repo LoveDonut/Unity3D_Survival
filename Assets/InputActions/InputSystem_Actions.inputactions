@@ -78,7 +78,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Weapon1",
+                    "name": "QuickSlot1",
                     "type": "Button",
                     "id": "1ad510eb-6225-4578-8bbd-fd5d3dbc4096",
                     "expectedControlType": "",
@@ -87,7 +87,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Weapon2",
+                    "name": "QuickSlot2",
                     "type": "Button",
                     "id": "d95a0fe3-fcdc-4a10-bd97-9704663d9713",
                     "expectedControlType": "",
@@ -96,7 +96,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Weapon3",
+                    "name": "QuickSlot3",
                     "type": "Button",
                     "id": "373f2199-8f69-43f1-80ea-d5bf0aa5235f",
                     "expectedControlType": "",
@@ -105,9 +105,45 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Weapon4",
+                    "name": "QuickSlot4",
                     "type": "Button",
                     "id": "69721cf9-3363-4da9-ba8f-4911b1432dc2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "QuickSlot5",
+                    "type": "Button",
+                    "id": "e8f00a1e-b502-4de3-9f0e-a8c817c86cc3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "QuickSlot6",
+                    "type": "Button",
+                    "id": "6fc92507-c5a1-4bb1-9bcf-cf1b1074a5cb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "QuickSlot7",
+                    "type": "Button",
+                    "id": "ae2d6a33-9674-47ef-92c2-3ff2eac36b64",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "QuickSlot8",
+                    "type": "Button",
+                    "id": "2effb7dd-59a4-4d1e-8c7f-dbb74e6087af",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -466,7 +502,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Weapon1",
+                    "action": "QuickSlot1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -477,7 +513,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Weapon2",
+                    "action": "QuickSlot2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -488,7 +524,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Weapon3",
+                    "action": "QuickSlot3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -499,7 +535,51 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Weapon4",
+                    "action": "QuickSlot4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "93faaccb-2680-41f9-ac77-c7a6bdbe14a1",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "QuickSlot5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "473a35f6-d727-4c8f-849e-095df7cc23a7",
+                    "path": "<Keyboard>/6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "QuickSlot6",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0580fb35-bf2a-4c52-bb63-72a0bbc2b73e",
+                    "path": "<Keyboard>/7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "QuickSlot7",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f81ac097-f203-4264-b6d2-d32b41f5b217",
+                    "path": "<Keyboard>/8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "QuickSlot8",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -18,11 +18,19 @@ public class ItemEffectDatabase : MonoBehaviour
     [SerializeField] StatusController statusController;
     [SerializeField] WeaponManager weaponManager;
     [SerializeField] SlotToolTip slotToolTip;
+    [SerializeField] QuickSlotController quickSlotController;
 
+    // QuickSlotController 징검다리
+    public void IsActivatedQuickSlot(int _num)
+    {
+        quickSlotController.IsActivatedQucikSlot(_num);
+    }
+    // SlotToolTip 징검다리
     public void ShowToolTip(Item _item, Vector3 _pos)
     {
         slotToolTip.ShowToolTip(_item, _pos);
     }
+    // SlotToolTip 징검다리
     public void HideToolTip()
     {
         slotToolTip.HideToolTip();
