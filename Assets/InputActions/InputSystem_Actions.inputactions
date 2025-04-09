@@ -184,6 +184,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Eat",
+                    "type": "Button",
+                    "id": "9675e68e-9a17-46dd-bb0f-1b58813a3ae9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -624,6 +633,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "06f35ecb-9bdc-4bc1-8724-38300bfb8fde",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Eat",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

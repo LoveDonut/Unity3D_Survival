@@ -14,12 +14,12 @@ public abstract class CloseWeaponContoller : MonoBehaviour
     {
         playerController = FindAnyObjectByType<PlayerController>();
     }
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
         InputManager.Subscribe("Fire", TryAttack);        
     }
 
-    protected void OnDisable()
+    protected virtual void OnDisable()
     {
         InputManager.Unsubscribe("Fire", TryAttack);        
     }

@@ -1,16 +1,19 @@
+using System.Collections;
 using UnityEngine;
 
 public class QuickSlotController : MonoBehaviour
 {
     [SerializeField] Slot[] quickSlots; // 퀵슬롯 배열
-    [SerializeField] Transform tf_parent; // 퀵슬롯의 부모 객체
+    [SerializeField] Transform tf_Parent; // 퀵슬롯의 부모 객체
+    [SerializeField] Transform tf_ItemPos; // 아이템이 위치할 손 끝
+    public static GameObject go_HandItem; // 손에 든 아이템템
     // 필요한 컴포넌트
     [SerializeField] GameObject go_SelectedImage; // 선택된 퀵슬롯의 이미지
     [SerializeField] WeaponManager weaponManager;
     int selectedSlot; // 선택된 퀵슬롯. 0 ~ 7
     void Start()
     {
-        quickSlots = tf_parent.GetComponentsInChildren<Slot>();
+        quickSlots = tf_Parent.GetComponentsInChildren<Slot>();
         selectedSlot = 0;
     }
     void OnEnable()
@@ -52,7 +55,7 @@ public class QuickSlotController : MonoBehaviour
             }
             else if(quickSlots[selectedSlot].item.itemType == Item.ItemType.Used)
             {
-                StartCoroutine(weaponManager.ChangeWeaponCoroutine("HAND", "맨손"));
+                ChangeHand(quickSlots[selectedSlot].item);
             }
             else
             {
@@ -61,8 +64,28 @@ public class QuickSlotController : MonoBehaviour
         }
         else
         {
-            StartCoroutine(weaponManager.ChangeWeaponCoroutine("HAND", "맨손"));
+            ChangeHand();
         }
+    }
+    void ChangeHand(Item _item = null)
+    {
+        StartCoroutine(weaponManager.ChangeWeaponCoroutine("HAND", "맨손"));
+
+        if(_item != null)
+        {
+            StartCoroutine(HandItemCoroutine());
+        }
+    }
+    IEnumerator HandItemCoroutine()
+    {
+        HandController.isActivate = false;
+        yield return new WaitUntil(() => HandController.isActivate == true);
+        go_HandItem = Instantiate(quickSlots[selectedSlot].item.itemPrefab, tf_ItemPos.position, tf_ItemPos.rotation);
+        go_HandItem.GetComponent<Rigidbody>().isKinematic = true;
+        go_HandItem.GetComponent<BoxCollider>().enabled = false;
+        go_HandItem.tag = "Untagged";
+        go_HandItem.layer = LayerMask.NameToLayer("Weapon");
+        go_HandItem.transform.SetParent(tf_ItemPos);
     }
     public void IsActivatedQucikSlot(int _num)
     {
@@ -78,6 +101,15 @@ public class QuickSlotController : MonoBehaviour
                 Execute();
                 return;
             }
+        }
+    }
+    public void EatItem()
+    {
+        quickSlots[selectedSlot].SetSlotCount(-1);
+
+        if(quickSlots[selectedSlot].itemCount <= 0)
+        {
+            Destroy(go_HandItem);
         }
     }
 }
